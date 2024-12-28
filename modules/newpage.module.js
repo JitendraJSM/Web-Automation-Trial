@@ -5,9 +5,9 @@ const importedPages = module.children
   .filter((m) => m.exports?.pageURL)
   .map((m) => {
     return {
-      pageName: m.exports.name,
+      pageClassName: m.exports.name,
       pageURL: m.exports.pageURL,
-      pageClass: m.exports,
+      pageConstructor: m.exports,
     };
   });
 
@@ -18,12 +18,18 @@ const pageFactory = async (page) => {
 
     //   2. Identify on the basis of Page URL
     let url = await page.url();
-    let currentPage = importedPages.find((p) => url.includes(p.pageURL));
-    if (!currentPage)
+    let currentPageClass =
+      importedPages.find((p) => url === p.pageURL) ||
+      importedPages.reduce(
+        (max, url) =>
+          url.startsWith(p.pageURL) && url.length > max.length ? url : max,
+        ""
+      );
+    if (!currentPageClass)
       throw new Error("Page's URL is not matched with any imported page.");
 
     //   3. Return the identified page object
-    return new currentPage.pageClass(page);
+    return new currentPageClass.pageConstructor(page);
   } catch (e) {
     console.log("Error in pageFactory function : ", e.message);
   }

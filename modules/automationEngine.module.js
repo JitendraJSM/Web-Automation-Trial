@@ -30,7 +30,7 @@ const createArrayOfPromises = (page) => {
       } catch (error) {
         if (isResolved) resolve(false);
         else {
-          console.log(`No Element of page "${await page.getPageName()}" found`);
+          console.log(`No Element of page "${page.pageName}" found`);
           console.log(
             "The List of Elements the script is waited For are as follows:"
           );
@@ -79,14 +79,10 @@ async function processAction(page) {
     await page[page.currentState.action]();
   }
   console.log(
-    `Action Done : ${page.currentState.action} on ${
-      page.currentState.selector
-    } on ${await page.getPageName()}`
+    `Action Done : ${page.currentState.action} on ${page.currentState.selector} on ${page.pageName}`
   );
   console.log(
-    `Current State Index : ${
-      page.currentStateIndex
-    } of page ${await page.getPageName()}`
+    `Current State Index : ${page.currentStateIndex} of page ${page.pageName}`
   );
   return true;
 }
@@ -119,8 +115,11 @@ async function AutomationEngine(page) {
   while (flag) {
     //   1. Idenetify & modify the page
     page = await pageFactory(page);
-    console.log(`Page Name : ${await page.getPageName()}`);
+    console.log(`Page Name : ${page.pageName}`);
     console.count(`\x1b[31mIn Automation Engine Loop\x1b[0m`);
+    console.log(
+      `\x1b[32mPage ${page.pageName} has currentStateIndex : ${page.currentStateIndex}\x1b[0m`
+    );
 
     // ------ As now the page have autmation queue so....
 

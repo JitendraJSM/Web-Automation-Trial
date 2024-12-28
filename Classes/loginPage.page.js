@@ -6,6 +6,7 @@ class loginPage {
 
   constructor(page) {
     this.page = page;
+    this.pageName = "loginPage";
 
     this.credentials = {
       userName: "7378213218" || process.env.OKWINGAME_USERNAME,

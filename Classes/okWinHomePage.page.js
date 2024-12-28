@@ -4,6 +4,7 @@ class okWinHomePage {
 
   constructor(page) {
     this.page = page;
+    this.pageName = "okWinHomePage";
 
     this.currentStateIndex = 0;
     this.automationQueue = [
