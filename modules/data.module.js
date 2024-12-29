@@ -25,11 +25,11 @@ module.exports.options = {
   // windowSize: [814, 859],
   // windowPosition: [793, -5],
   // For Office Desktop
-  windowSize: [697, 727],
-  windowPosition: [676, 0],
+  // windowSize: [697, 727],
+  // windowPosition: [676, 0],
   // For acer Laptop
-  // windowSize: [782, 831],
-  // windowPosition: [761, 0],
+  windowSize: [782, 831],
+  windowPosition: [761, 0],
 };
 
 module.exports.dataToLog = {};

@@ -112,9 +112,10 @@ async function executeAutomationQueue(page) {
 // ----------------Main Script----------------//
 async function AutomationEngine(page) {
   let flag = true;
+  const pageStack = [];
   while (flag) {
     //   1. Idenetify & modify the page
-    page = await pageFactory(page);
+    page = await pageFactory(page, pageStack);
     console.log(`Page Name : ${page.pageName}`);
     console.count(`\x1b[31mIn Automation Engine Loop\x1b[0m`);
     console.log(

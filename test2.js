@@ -1,24 +1,16 @@
-const db = require("./modules/data.module.js");
-let { getBrowser } = require("./modules/browser.module.js");
+async function testTwo(pageStack) {
+  console.log(`testTwo  started...`);
+  console.log(
+    `\x1b[31mpageStack in testTwo before pusheing : ${JSON.stringify(
+      pageStack
+    )}\x1b[0m`
+  );
 
-const { pageFactory } = require("./modules/newpage.module.js");
-
-const AutomationEngine = require("./modules/automationEngine.module.js");
-
-async function main() {
-  console.log(`index.js : started...`);
-
-  let { browser, page } = await getBrowser(db.options);
-
-  // 2. Run Automation Engine
-  // await AutomationEngine(page);
-  page = await pageFactory(page);
-
-  const elemetHandle = await page
-    .locator("i.close:not(.van-overflow-hidden i.close)")
-    .waitHandle();
-  await elemetHandle.click();
-
-  console.log(`Element visible icl : ${elemetHandle}`);
+  pageStack.push({ modifiedValue: "added by func 2" });
+  console.log(
+    `\x1b[31mpageStack in testTwo in after pushing : ${JSON.stringify(
+      pageStack
+    )}\x1b[0m`
+  );
 }
-main();
+module.exports = testTwo;
