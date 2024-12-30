@@ -88,26 +88,30 @@ async function processAction(page) {
 }
 async function executeAutomationQueue(page) {
   // page.currentStateIndex = 0; // Always Start with index 0
-  page.currentState = page.automationQueue[page.currentStateIndex]; // Make this & above line as page.currentStateRefresh(currentStateIndex)
+  // page.currentState = page.automationQueue[page.currentStateIndex]; // Make this & above line as page.currentStateRefresh(currentStateIndex)
 
   while (page.currentStateIndex < page.automationQueue.length) {
+    console.log(`checkpoint to check infinite loop : ${page.pageName}`);
+
     page.currentStateIndex = await stateIdentifier(page);
 
     page.currentState = page.automationQueue[page.currentStateIndex];
     await new Promise((resolve) => setTimeout(resolve, 1000));
     await processAction(page);
     await new Promise((resolve) => setTimeout(resolve, 3000));
+    page.currentStateIndex++;
 
     if (page.currentState.navigator) {
       console.log("As this is a navigator action so Navigating to next page.");
       // break;
       return "navigation";
     }
-
-    page.currentStateIndex++;
+    console.log(
+      `End of while loop for page ${page.pageName}, currentStateIndex : ${page.currentStateIndex}, Aq Length : ${page.automationQueue.length}`
+    );
   }
   console.log("Automation Queue Completed");
-  return true;
+  return "Queue Completed";
 }
 // ----------------Main Script----------------//
 async function AutomationEngine(page) {
@@ -127,6 +131,14 @@ async function AutomationEngine(page) {
     //   2. Execute the automation queue
     flag = await executeAutomationQueue(page);
 
+    if (flag === "Queue Completed") {
+      flag = false;
+      console.log(`\x1b[33m====  Queue Completed   ====\x1b[0m\x1b[0m`);
+      console.log(
+        `As current page Index === ${page.currentStateIndex} and the AQ Length ${page.automationQueue.length}`
+      );
+    }
+
     /* Below Sniipet is not required as pageFactory by default always wait for page to get loaded before anything  
 
       if (flag === "navigation") {
@@ -136,5 +148,6 @@ async function AutomationEngine(page) {
     }
       */
   }
+  return "Everthing is done by AutomationEngine";
 }
 module.exports = AutomationEngine;

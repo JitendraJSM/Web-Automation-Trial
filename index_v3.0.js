@@ -9,6 +9,8 @@ async function main() {
   let { browser, page } = await getBrowser(db.options);
 
   // 2. Run Automation Engine
-  await AutomationEngine(page);
+  const res = await AutomationEngine(page);
+
+  console.log(`Automation Engine Result: ${res}`);
 }
 main();

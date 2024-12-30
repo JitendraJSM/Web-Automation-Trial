@@ -26,6 +26,18 @@ class okWinHomePage {
         actionType: "elemental",
         overflowElement: true,
       },
+      {
+        selector: "div.close",
+        action: "click",
+        actionType: "elemental",
+        overflowElement: true,
+      },
+      {
+        selector: "span ::-p-text(Win Go)",
+        action: "click",
+        actionType: "elemental",
+        overflowElement: true,
+      },
     ];
     this.currentState = this.automationQueue[this.currentStateIndex];
 
